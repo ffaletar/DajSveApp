@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_below="@+id/toolbar"
+    android:id="@+id/skrolanje">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent" android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/ponuda_image"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_launcher"
+                android:layout_width="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter" />
+
+            <LinearLayout
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@color/white_transparent"
+                android:layout_alignParentRight="true"
+                android:weightSum="1.0">
+
+                <TextView
+                    android:id="@+id/ponuda_cijena"
+                    android:layout_width="match_parent"
+                    android:layout_weight="0.333"
+                    android:layout_height="0dip"
+                    android:textIsSelectable="false"
+                    android:textAlignment="center"
+                    tools:text="Nova cijena"
+                    android:textAppearance="@style/TextAppearance.StatusBar.EventContent.Info"
+                    android:textSize="22sp"
+                    android:textColor="@color/blaga_tamno_zelena"
+                    android:fontFamily="serif"
+                    android:layout_alignTop="@+id/ponuda_image"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/ponuda_original"
+                    android:layout_width="match_parent"
+                    android:layout_weight="0.333"
+                    android:layout_height="0dip"
+                    android:textIsSelectable="false"
+                    android:textAlignment="center"
+                    tools:text="Redovna cijena"
+                    android:textAppearance="@style/TextAppearance.StatusBar.EventContent.Info"
+                    android:textSize="19sp"
+                    android:textColor="@color/siva"
+                    android:fontFamily="serif"
+                    android:layout_below="@+id/ponuda_cijena"
+                    android:layout_alignEnd="@+id/ponuda_cijena"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/ponuda_popust"
+                    android:layout_width="match_parent"
+                    android:layout_weight="0.333"
+                    android:layout_height="0dip"
+                    android:textIsSelectable="false"
+                    android:textAlignment="center"
+                    tools:text="Popust"
+                    android:textAppearance="@style/TextAppearance.StatusBar.EventContent.Info"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorAccent"
+                    android:layout_centerInParent="@+id/ponuda_cijena"
+                    android:fontFamily="serif"
+                    android:layout_below="@+id/ponuda_original"
+                    android:layout_alignEnd="@+id/ponuda_original"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/ponuda_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_below="@+id/ponuda_image"
+            android:textIsSelectable="true"
+            tools:text="Naziv ponude"
+            android:textSize="20sp"
+            android:textColor="?android:textColorPrimaryDisableOnly"
+            android:fontFamily="serif"
+            android:clickable="true" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:weightSum="1.0">
+
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:layout_width="0dip"
+                android:orientation="vertical"
+                android:textAppearance="@style/TextAppearance.StatusBar.EventContent.Info"
+                android:id="@+id/link_na_stranicu">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_height="34dp"
+                    android:src="@drawable/opensite"
+                    android:id="@+id/slika_link_na_stranicu"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Otvori ponudu u pregledniku"
+                    android:textAlignment="center"
+                    android:textColor="@color/blaga_ljubicasta"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:layout_width="0dip"
+                android:orientation="vertical"
+                android:id="@+id/dodaj_brisi_favorita">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:src="@drawable/dodajbutton"
+                    android:textColor="#FFFFFF"
+                    android:id="@+id/dodaj_brisi_favorita_slika"
+                    android:paddingTop="10sp"
+                    android:text="Spremi ponudu"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Spremi ponudu"
+                    android:id="@+id/dodaj_u_favorite_text"
+                    android:textAlignment="center"
+                    android:textColor="@color/blaga_ljubicasta"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:id="@+id/mapa_prikaz"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true">
+
+        </FrameLayout>
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/prozirnaslika"
+            android:layout_alignTop="@+id/mapa_prikaz"
+            android:layout_alignBottom="@+id/mapa_prikaz"
+            android:layout_alignEnd="@+id/mapa_prikaz"
+            android:layout_alignRight="@+id/mapa_prikaz"
+            android:layout_alignLeft="@+id/mapa_prikaz"
+            android:layout_marginLeft="10dp"
+            android:layout_alignStart="@+id/mapa_prikaz"
+            android:alpha=".1"/>
+    </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent" android:id="@+id/graf_detalji" android:visibility="gone"
+            android:layout_height="wrap_content">
+
+            <lecho.lib.hellocharts.view.ComboLineColumnChartView
+                android:id="@+id/chart2"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="150dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="100dp" android:orientation="horizontal"
+            android:id="@+id/statistika_layout_detalji_ponude"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="0.33"
+                android:background="@color/blagocrvena"
+                android:gravity="center"
+                android:id="@+id/detalji_ponude_statistika1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textColor="@color/bijela"
+                    android:text="Pregled ponude"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="35sp"
+                    android:textColor="@color/bijela"
+                    android:gravity="center"
+                    android:id="@+id/brojPregledaPonude"
+                    android:text="0"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.33"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:background="@color/blagozelena"
+                android:id="@+id/detalji_ponude_statistika2"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/bijela"
+                    android:textAlignment="center"
+                    android:text="Omiljena ponuda"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="35sp"
+                    android:textColor="@color/bijela"
+                    android:id="@+id/brojOmiljenihPonude"
+                    android:gravity="center"
+                    android:text="0"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.33"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:background="@color/blagoplava"
+                android:id="@+id/detalji_ponude_statistika3"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textColor="@color/bijela"
+                    android:text="Web klikova"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="35sp"
+                    android:textColor="@color/bijela"
+                    android:id="@+id/brojOtvaranjaNaWebuPonude"
+                    android:gravity="center"
+                    android:text="0"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="0.6"-->
+    <!--android:orientation="vertical">-->
+
+    <TextView
+        android:text="Koji su tvoji interesi?"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/interesi_text_view"
+        android:textSize="30sp"
+        android:padding="6dp"/>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rv_kategorije"
+        android:layout_weight="1">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <!--</LinearLayout>-->
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:id="@+id/button_dalje"
+        android:text="Dalje"
+        android:layout_gravity="center_vertical"
+        android:textColor="@color/colorPrimary"
+        android:textSize="30sp"/>
+
+</LinearLayout>

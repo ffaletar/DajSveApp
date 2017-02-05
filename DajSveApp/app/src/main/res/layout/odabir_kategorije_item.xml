@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view_kategorije"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    card_view:cardCornerRadius="5dp"
+    android:layout_marginTop="5dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:selectableItemBackground">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Kategorija"
+        android:id="@+id/kategorija_naziv"
+        android:layout_marginTop="7.5dp"
+        android:textSize="25sp"
+        android:layout_marginLeft="30dp"
+        android:layout_gravity="center_vertical"
+        />
+
+    <android.support.v7.widget.AppCompatCheckBox
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_gravity="end"
+        android:layout_marginTop="7.5dp"
+        android:id="@+id/odabir_kategorije_checkbox"
+        android:layout_marginRight="30dp"/>
+
+</android.support.v7.widget.CardView>

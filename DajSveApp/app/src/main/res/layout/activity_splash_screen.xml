@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_splash_screen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.filip.dajsve.dajsve.example.filip.dajsve.Activities.SplashScreenActivity"
+    android:background="@color/navigationColor">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:layout_width="306dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:id="@+id/splash_screen_tekst"
+            android:text="Svi popusti na jednom mjestu"
+            android:textColor="@color/bijela"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="274dp" />
+
+        <ImageView
+            android:layout_width="100dp"
+            android:scaleType="fitCenter"
+            android:layout_height="36.36dp"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/splash_screen_logo"
+            android:src="@drawable/dajsvebijeli"
+            android:layout_above="@+id/splash_screen_tekst"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="330dp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
