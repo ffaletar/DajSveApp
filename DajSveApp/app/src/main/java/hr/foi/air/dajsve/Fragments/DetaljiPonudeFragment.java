@@ -39,6 +39,7 @@ import java.util.List;
 
 import entities.Favorit;
 import entities.Ponuda;
+import hr.foi.air.dajsve.Adapters.RVAdapter;
 import hr.foi.air.dajsve.Helpers.Baza;
 import hr.foi.air.dajsve.R;
 import lecho.lib.hellocharts.model.Axis;
@@ -92,6 +93,7 @@ public class DetaljiPonudeFragment extends android.support.v4.app.Fragment imple
     private TextView brojOmiljenihPonude;
     private TextView brojOtvaranjaNaWebuPonude;
     private LinearLayout grafDetalji;
+    private ImageView ponudivacLogo;
 
     @Nullable
     @Override
@@ -102,6 +104,7 @@ public class DetaljiPonudeFragment extends android.support.v4.app.Fragment imple
         context = rootView.getContext();
 
         ponudaSlika=(ImageView)rootView.findViewById(hr.foi.air.dajsve.R.id.ponuda_image);
+        ponudivacLogo=(ImageView)rootView.findViewById(R.id.ponudivacLogo);
         ponudaNaziv=(TextView) rootView.findViewById(hr.foi.air.dajsve.R.id.ponuda_name);
         linkNaStranicu = (LinearLayout) rootView.findViewById(hr.foi.air.dajsve.R.id.link_na_stranicu);
         ponudaCijena=(TextView)rootView.findViewById(hr.foi.air.dajsve.R.id.ponuda_cijena);
@@ -123,11 +126,12 @@ public class DetaljiPonudeFragment extends android.support.v4.app.Fragment imple
         List<Favorit> favoriti= Favorit.getAll();
         ArrayList<Ponuda> listaDohvacena = bundle.getParcelableArrayList("ponuda");
         ponudaDohvacena = listaDohvacena.get(0);
-
+        ponudaDohvacena.getKategorija();
         Picasso.with(context).load(ponudaDohvacena.getURL()).into(ponudaSlika);
         ponudaNaziv.setText(ponudaDohvacena.getNaziv());
         ponudaCijena.setText(ponudaDohvacena.getCijena() + " kuna");
         ponudaPopust.setText((Integer.toString(ponudaDohvacena.getPopust()) + "%"));
+        Picasso.with(context).load(ponudaDohvacena.getUrlLogo()).into(ponudivacLogo);
 
         //strike preko stare cijene
         ponudaOriginal.setPaintFlags(ponudaOriginal.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
