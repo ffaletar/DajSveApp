@@ -38,8 +38,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PonudeViewHolder> 
         ImageView ponudivacLogo;
         ImageView sss;
 
-
-
         PonudeViewHolder(View itemView) {
             super(itemView);
             cv = (CardView)itemView.findViewById(hr.foi.air.dajsve.R.id.card_view);
@@ -81,7 +79,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PonudeViewHolder> 
         PonudeViewHolder.ponudaCijena.setText(ponuda.get(i).getCijena()+ " kuna");
         PonudeViewHolder.ponudaStaraCijena.setText(ponuda.get(i).getCijenaOriginal()+ " kuna");
         PonudeViewHolder.ponudaPopust.setText(ponuda.get(i).getPopust() + "%");
-
         if(ponuda.get(i).getKategorija().toLowerCase().contains("novo") == true){
             Picasso.with(context).load(hr.foi.air.dajsve.R.drawable.novo).into(PonudeViewHolder.sss);
             PonudeViewHolder.sss.bringToFront();
@@ -92,13 +89,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PonudeViewHolder> 
         Picasso.with(context).load(ponuda.get(i).getURL()).into(PonudeViewHolder.ponudaSlika);
         Picasso.with(context).load(ponuda.get(i).getUrlLogo()).into(PonudeViewHolder.ponudivacLogo);
 
-
-
-        final int index=i+1;
         final ArrayList<Ponuda> ponudaArrayList=new ArrayList<Ponuda>();
         ponudaArrayList.add(ponuda.get(i));
-
-        System.out.println("Trenutno ima: " + getItemCount());
 
         //funkcija za strikethrough preko teksta
         PonudeViewHolder.ponudaStaraCijena.setPaintFlags(PonudeViewHolder.ponudaStaraCijena.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -117,14 +109,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PonudeViewHolder> 
             }
         });
     }
-
-
-
-    public void clear() {
-        Ponuda.deleteAll();
-    }
-
-
 
     @Override
     public int getItemCount() {

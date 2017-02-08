@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,11 +40,10 @@ public class SplashScreenActivity extends AppCompatActivity {
         splashScreenThread.start();
 
 
-
         TranslateAnimation anim = new TranslateAnimation(0,0,0,1200);
-        TranslateAnimation anim2 = new TranslateAnimation(0,0,1200,0);
+        ScaleAnimation anim2 = new ScaleAnimation(150,750,75,375);
         anim.setDuration(800);
-        anim2.setDuration(1000);
+        anim2.setDuration(2000);
 
         anim.setInterpolator(new DecelerateInterpolator());
         anim.setFillAfter(true);
@@ -54,4 +54,5 @@ public class SplashScreenActivity extends AppCompatActivity {
 
 
     }
+
 }

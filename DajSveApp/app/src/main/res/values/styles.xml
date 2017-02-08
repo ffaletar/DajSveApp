@@ -5,10 +5,32 @@
         <!-- Customize your theme here. -->
 
         <item name="colorPrimary">@color/navigationColor</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/navigationColor</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="Theme.DeviceDefault.Dialog.NoActionBar.Light.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar" />
+    <style
+        name="PolarThemeLogo" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/navigationColor</item>
+        <item name="colorPrimaryDark">@color/navigationColor</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="actionBarStyle">@style/MyActionBarLogo</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="Theme.DeviceDefault.Dialog.NoActionBar.Light.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/navigationColor</item>
+        <item name="colorPrimaryDark">@color/navigationColor</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
+
+    <style name="MyActionBarLogo" parent="@style/Widget.AppCompat.Light.ActionBar">
+        <item name="background">@color/navigationColor</item>
+        <item name="logo">@drawable/dajsvebijeli</item>
+        <item name="displayOptions">useLogo|showHome</item>
+    </style>
 
 </resources>

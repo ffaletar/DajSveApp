@@ -47,7 +47,6 @@ public class PocetnaFragment extends Fragment{
         final AlertDialog.Builder ad =  new AlertDialog.Builder(getActivity());
         kategorije = new String[Kategorija.getAll().size()];
         oznaceneKategorijeDialog = new boolean[Kategorija.getAll().size()];
-        urediOmiljeneKategorije = (Button) rootView.findViewById(R.id.uredi_pregled_button);
         int i=0;
 
 

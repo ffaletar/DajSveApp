@@ -105,9 +105,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         super.onCreate(savedInstanceState);
         View v = inflater.inflate(hr.foi.air.dajsve.R.layout.map_fragment, container, false);
         rv = (RecyclerView) v.findViewById(hr.foi.air.dajsve.R.id.rv);
-        Button pretraziMapuButton = (Button) v.findViewById(R.id.pretrazi_mapu_gumb);
-        final android.widget.SearchView pretragaMapeSearch = (android.widget.SearchView) v.findViewById(R.id.map_search);
-        final Spinner spinnerKilometri = (Spinner) v.findViewById(R.id.map_spinner);
         svePonude = Ponuda.getAll();
         System.out.print("Broj ponuda: " + svePonude.size());
         context = v.getContext();
@@ -131,9 +128,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         }catch (Exception e){
             this.unos="Turopoljska 17,Lekenik";
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_item, arraySpinner);
-        spinnerKilometri.setAdapter(adapter);
 
 
         //provjera da li je gps omogućen
@@ -145,73 +139,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
             GPSupozorenje();
         }
         //kraj provjere
-
-
-        pretraziMapuButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CharSequence aa = pretragaMapeSearch.getQuery();
-                String kilometri = (String) spinnerKilometri.getSelectedItem();
-
-                //ovo zatvara tipkovnicu
-                final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
-
-                System.out.println("Search : "+ aa + kilometri);
-
-                //fico tu implementiraj sucelje za search prema lokaciji s ovim parametrima
-                List<String> naziviPonude = new ArrayList<>();
-                List<String> hashPonudeLokacija = new ArrayList<>();
-                List<Double> latPonude = new ArrayList<>();
-                List<Double> longPonude = new ArrayList<>();
-                for(Ponuda ponuda : Ponuda.getAll())
-                {
-                    naziviPonude.add(ponuda.getNaziv());
-                    if(!ponuda.getLatitude().equals("nema")){
-                        if(!ponuda.getLongitude().equals("nema")) {
-                            latPonude.add(Double.parseDouble(ponuda.getLatitude()));
-                            longPonude.add(Double.parseDouble(ponuda.getLongitude()));
-                            hashPonudeLokacija.add(ponuda.getHash());
-                        }
-                    }
-                }
-                System.out.print("PODACI: "+longPonude.size()+latPonude.size());
-
-
-                //inicijalizacija factory klase
-                SearchDataInterface pk = Factory.Create(1);
-
-
-
-                List<String> hashs = null;
-                String unos = aa.toString();
-                Bundle bundle = new Bundle();
-                boolean dobraAdresa= true;
-                try {
-                    hashs = pk.DohvatiSve(aa.toString(),null,hashPonudeLokacija, getActivity(), latPonude, longPonude,  Integer.parseInt(kilometri));
-
-                    bundle.putString("BBB",aa.toString());
-                }catch (Exception e){
-                    hashs = (ArrayList<String>) hashPonudeLokacija;
-                    dobraAdresa=false;
-                }
-
-                System.out.print("KOLIKO : " +hashs.size());
-
-                pokreniCluster(map,hashs,unos);
-
-                Fragment fragment = null;
-
-
-
-                bundle.putStringArrayList("AAA", (ArrayList<String>) hashs);
-
-                fragment = new MapFragment();
-                fragment.setArguments(bundle);
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.linearlayout, fragment).commit();
-            }
-        });
 
         return v;
 
@@ -262,13 +189,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
             System.out.print("GRESKA");
 
         }
-
-
-
-
-
-
-
         List<String> hashPonudeLokacija = new ArrayList<>();
         for(Ponuda ponuda : Ponuda.getAll())
         {
@@ -308,12 +228,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
             e.printStackTrace();
         }
 
-        System.out.println("koordinate:  " + bounds);
-
         return true;
     }
-
-
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -340,8 +256,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
     @Override
     public void onLocationChanged(Location location) {
-
-        System.out.println("Pozicija = " + location.getLatitude()+", "+ location.getLongitude());
 
         mLastLocation = location;
         if (mCurrLocationMarker != null) {

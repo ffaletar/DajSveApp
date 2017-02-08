@@ -30,6 +30,7 @@ import entities.Ponuda;
 import hr.foi.air.dajsve.Activities.MainActivity;
 import hr.foi.air.dajsve.Adapters.RVAdapter;
 import hr.foi.air.dajsve.Helpers.Baza;
+import hr.foi.air.dajsve.R;
 
 /**
  * Created by Filip on 28.10.2016..
@@ -52,7 +53,7 @@ public class MojeKategorijeFragment extends DialogFragment implements SwipeRefre
         View rootView = inflater.inflate(hr.foi.air.dajsve.R.layout.moje_kategorije_fragment, container, false);
         rv = (RecyclerView) rootView.findViewById(hr.foi.air.dajsve.R.id.rv);
         final AlertDialog.Builder ad =  new AlertDialog.Builder(getActivity());
-      // fab = (FloatingActionButton) rootView.findViewById(hr.foi.air.dajsve.R.id.fab_sve_ponude);
+        fab = (FloatingActionButton) rootView.findViewById(R.id.fab_moje_kategorije);
         opcijeSortiranja = new String[3];
         opcijeSortiranja[0] = "Cijena - uzlazno";
         opcijeSortiranja[1] = "Cijena - silazno";
@@ -63,7 +64,6 @@ public class MojeKategorijeFragment extends DialogFragment implements SwipeRefre
         int i=0;
         kategorije = new String[Kategorija.getAll().size()];
         oznaceneKategorijeDialog = new boolean[Kategorija.getAll().size()];
-        urediOmiljeneKategorije = (Button) rootView.findViewById(hr.foi.air.dajsve.R.id.uredi_pregled_button);
 
 
         // Prolazimo kroz sve kategorije u tablici i stavljamo u polje kategorije samo nazive
@@ -85,6 +85,9 @@ public class MojeKategorijeFragment extends DialogFragment implements SwipeRefre
                 }
             }
         }
+
+
+
         ad.setTitle("ODABERITE KATEGORIJU");
         ad.setMultiChoiceItems(kategorije, oznaceneKategorijeDialog, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
@@ -143,16 +146,12 @@ public class MojeKategorijeFragment extends DialogFragment implements SwipeRefre
 
         ad.setItems(kategorije,null);
 
-
-
-        urediOmiljeneKategorije.setOnClickListener(new View.OnClickListener() {
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ad.show();
             }
         });
-
-
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(hr.foi.air.dajsve.R.id.swipeContainer);
         mSwipeRefreshLayout.setOnRefreshListener(this);

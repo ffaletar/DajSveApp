@@ -7,8 +7,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swipeContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="60dp">
+        android:layout_height="match_parent">
 
 
         <android.support.v7.widget.RecyclerView
@@ -20,20 +19,20 @@
         </android.support.v7.widget.RecyclerView>
 
     </android.support.v4.widget.SwipeRefreshLayout>
-<!--
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_moje_kategorije"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
-        android:src="@drawable/sortbutton"
+        android:src="@drawable/arrange"
         android:background="@color/colorAccent"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="20dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         app:fabSize="normal" />
--->
+
     <TextView
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"
@@ -44,14 +43,4 @@
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
         />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:text="Uredi pregled"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/uredi_pregled_button"
-        android:background="@color/svijetlo_ljubicasta"
-        android:textColor="@color/bijela"
-        android:textSize="17sp"/>
 </RelativeLayout>

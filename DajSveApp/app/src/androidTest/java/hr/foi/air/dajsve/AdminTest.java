@@ -52,8 +52,6 @@ public class AdminTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        onView(withId(R.id.admin_login_button)).perform(longClick());
-        onView(withId(R.id.admin_prijava_button)).perform(click());
         onView(withText(startsWith("Neuspješna prijava"))).
                 inRoot(withDecorView(
                         not(is(mActivityRule.getActivity().
@@ -70,11 +68,6 @@ public class AdminTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        onView(withId(R.id.admin_login_button)).perform(longClick());
-        //onView(withId(R.id.button_odjava)).perform(click());
-        onView(withId(R.id.korime)).perform(typeText(random()),closeSoftKeyboard());
-        onView(withId(R.id.lozinka)).perform(typeText(random()),closeSoftKeyboard());
-        onView(withId(R.id.admin_prijava_button)).perform(click());
         onView(withText(startsWith("Neuspješna prijava"))).
                 inRoot(withDecorView(
                         not(is(mActivityRule.getActivity().

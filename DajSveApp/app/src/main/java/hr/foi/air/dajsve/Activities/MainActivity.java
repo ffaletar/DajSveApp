@@ -3,14 +3,12 @@ package hr.foi.air.dajsve.Activities;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Looper;
 import android.os.StrictMode;
 import android.provider.Settings.Secure;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.ViewDragHelper;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -28,7 +25,13 @@ import android.widget.Toast;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -37,8 +40,6 @@ import entities.Kategorija;
 import entities.Ponuda;
 import hr.foi.air.core.DataLoadedListener;
 import hr.foi.air.core.DataLoader;
-import hr.foi.air.dajsve.Fragments.AdminLoginFragment;
-import hr.foi.air.dajsve.Fragments.AdminPocetna;
 import hr.foi.air.dajsve.Fragments.FavoritiFragment;
 import hr.foi.air.dajsve.Fragments.MapFragment;
 import hr.foi.air.dajsve.Fragments.MojeKategorijeFragment;
@@ -46,8 +47,6 @@ import hr.foi.air.dajsve.Fragments.PocetnaFragment;
 import hr.foi.air.dajsve.Fragments.PretraživanjeFragment;
 import hr.foi.air.dajsve.Helpers.Baza;
 import hr.foi.air.dajsve.Helpers.Factory;
-import hr.foi.air.dajsve.Helpers.PretrazivanjeKeyword;
-import hr.foi.air.dajsve.Helpers.SearchDataInterface;
 import hr.foi.air.dajsve.Helpers.SearchDataInterface;
 import hr.foi.air.dajsve.Loaders.DatabaseDataLoader;
 import hr.foi.air.dajsve.Loaders.WebServiceDataLoader;
@@ -65,17 +64,27 @@ public class MainActivity extends AppCompatActivity implements DataLoadedListene
     Boolean adminPrijavljen = true;
     List<Ponuda> ponudaLista = null;
     private String uneseniUpit;
+    private Boolean internetDostupan = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 
+
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.action_bar_layout);
+
             SharedPreferences.Editor spref = getSharedPreferences("LOGGED", Context.MODE_PRIVATE).edit();
-            spref.putBoolean("logged", false);
-            spref.commit();
+        spref.putBoolean("logged", false);
+        spref.commit();
 
+        Date date = new Date(System.currentTimeMillis());
+        long millis = date.getTime();
 
+        SharedPreferences.Editor zadnjiUlazPref = getSharedPreferences("ULAZ", Context.MODE_PRIVATE).edit();
+        zadnjiUlazPref.putLong("vrijeme", millis);
+        zadnjiUlazPref.commit();
 
         android_id = Secure.getString(getApplicationContext().getContentResolver(),
                 Secure.ANDROID_ID);
@@ -92,26 +101,6 @@ public class MainActivity extends AppCompatActivity implements DataLoadedListene
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         FlowManager.init(new FlowConfig.Builder(this).build());
-
-        final Button button = (Button)findViewById(R.id.admin_login_button);
-
-        findViewById(R.id.admin_login_button).setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                SharedPreferences prefLogged = getSharedPreferences("LOGGED", Context.MODE_PRIVATE);
-                Fragment fragment = null;
-                if(prefLogged.getBoolean("logged", true) == true){
-                    fragment = new AdminPocetna();
-                }else{
-                    fragment =  new AdminLoginFragment();
-                }
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.linearlayout, fragment).commit();
-                drawerLayout.closeDrawers();
-
-                return false;
-            }
-        });
 
         ActionBar ab = getSupportActionBar();
         if (android.os.Build.VERSION.SDK_INT > 9) {
@@ -288,13 +277,31 @@ public class MainActivity extends AppCompatActivity implements DataLoadedListene
 
         return super.onOptionsItemSelected(item);
     }
-    public void loadData(){
+    public void loadData() {
         System.out.println("KOja je dretva: "+ Looper.myLooper());
         System.out.println("Poziva se funkcija za dohvat podataka");
         DataLoader dataLoader;
-        dataLoader = new WebServiceDataLoader();
 
-        if((Ponuda.getAll().isEmpty() || Grad.getAll().isEmpty()) || Looper.myLooper()!=Looper.getMainLooper()){
+        SharedPreferences zadnjiUlazPref = getSharedPreferences("ULAZ", Context.MODE_PRIVATE);
+        long startTime = zadnjiUlazPref.getLong("vrijeme", 0);
+        long endTime = System.currentTimeMillis();
+
+        Socket sock = new Socket();
+        InetSocketAddress addr = new InetSocketAddress("www.google.com",80);
+        try {
+            sock.connect(addr,3000);
+            internetDostupan = true;
+        } catch (IOException e) {
+            internetDostupan = false;
+        } finally {
+            try {sock.close();}
+            catch (IOException e) {}
+        }
+
+
+        long millis = endTime - startTime;
+
+        if(((Ponuda.getAll().isEmpty() || Grad.getAll().isEmpty()) || Looper.myLooper()!=Looper.getMainLooper() || millis > 86400000) && internetDostupan==true){
             System.out.println("Dohvaćamo web podatke");
             Toast.makeText(this, "Dohvaćamo podatke s weba", Toast.LENGTH_LONG).show();
             dataLoader = new WebServiceDataLoader();

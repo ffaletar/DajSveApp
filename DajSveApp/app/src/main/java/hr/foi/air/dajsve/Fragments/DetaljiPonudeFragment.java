@@ -13,8 +13,13 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.RotateAnimation;
+import android.view.animation.ScaleAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -102,7 +107,6 @@ public class DetaljiPonudeFragment extends android.support.v4.app.Fragment imple
 
         View rootView = inflater.inflate(hr.foi.air.dajsve.R.layout.detalji_ponude_fragment, container, false);
         context = rootView.getContext();
-
         ponudaSlika=(ImageView)rootView.findViewById(hr.foi.air.dajsve.R.id.ponuda_image);
         ponudivacLogo=(ImageView)rootView.findViewById(R.id.ponudivacLogo);
         ponudaNaziv=(TextView) rootView.findViewById(hr.foi.air.dajsve.R.id.ponuda_name);
@@ -114,13 +118,6 @@ public class DetaljiPonudeFragment extends android.support.v4.app.Fragment imple
         ponudaOriginal=(TextView)rootView.findViewById(hr.foi.air.dajsve.R.id.ponuda_original);
         gumbDodajUFavorite = (LinearLayout) rootView.findViewById(hr.foi.air.dajsve.R.id.dodaj_brisi_favorita);
         mapaPrikaz=(FrameLayout)rootView.findViewById(hr.foi.air.dajsve.R.id.mapa_prikaz);
-        detaljiPonudeStatistikaLayout = (LinearLayout) rootView.findViewById(R.id.statistika_layout_detalji_ponude) ;
-        brojPregledaPonude = (TextView) rootView.findViewById(R.id.brojPregledaPonude);
-        brojOmiljenihPonude = (TextView) rootView.findViewById(R.id.brojOmiljenihPonude);
-        brojOtvaranjaNaWebuPonude = (TextView) rootView.findViewById(R.id.brojOtvaranjaNaWebuPonude);
-        grafDetalji = (LinearLayout) rootView.findViewById(R.id.graf_detalji);
-        ponudaJeFavorit = false;
-        chart = (ComboLineColumnChartView) rootView.findViewById(R.id.chart2);
 
         Bundle bundle = getArguments();
         List<Favorit> favoriti= Favorit.getAll();
@@ -147,28 +144,7 @@ public class DetaljiPonudeFragment extends android.support.v4.app.Fragment imple
         String tekstPonude = ponudaDohvacena.getTekstPonude();
         baza.ZapisiUDnevnik(6, android_id, "Otvorena ponuda", ponudaDohvacena.getHash(), 1);
 
-
-        SharedPreferences prefLogged = getActivity().getSharedPreferences("LOGGED", Context.MODE_PRIVATE);
-
-        if(prefLogged.getBoolean("logged", true) == true){
-            String brojOtvaranjaPonude = String.valueOf(baza.DohvatiBrojOtvaranjaPonude(6,ponudaDohvacena.getHash()));
-            String brojOmiljenihPonuda = String.valueOf(baza.DohvatiLajkoveNaPonudu(ponudaDohvacena.getHash()));
-
-            String brojOtvaranjaNaWebu = String.valueOf(baza.DohvatiBrojOtvaranjaPonude(7,ponudaDohvacena.getHash()));
-
-            generateData();
-
-            brojPregledaPonude.setText(brojOtvaranjaPonude);
-            brojOmiljenihPonude.setText(brojOmiljenihPonuda);
-            brojOtvaranjaNaWebuPonude.setText(brojOtvaranjaNaWebu);
-            grafDetalji.setVisibility(View.VISIBLE);
-            detaljiPonudeStatistikaLayout.setVisibility(View.VISIBLE);
-
-
-        }else{
-            detaljiPonudeStatistikaLayout.setVisibility(View.GONE);
-            grafDetalji.setVisibility(View.GONE);
-        }
+        Picasso.with(context).load(R.drawable.addfavorite).into(dodajUFavoriteSlika);
 
         prozirnaSlika.setOnTouchListener(new View.OnTouchListener() {@Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -223,7 +199,7 @@ public class DetaljiPonudeFragment extends android.support.v4.app.Fragment imple
             if(favorit.getHash().equals(ponudaDohvacena.getHash())){
                 ponudaJeFavorit = true;
                 dodajUFavoriteTekst.setText("Briši iz spremljenih ponuda");
-                dodajUFavoriteSlika.setRotation(45);
+                Picasso.with(context).load(R.drawable.deletefavorite).into(dodajUFavoriteSlika);
 //                gumbDodajUFavorite.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.blaga_crvena));
             }
         }
@@ -235,6 +211,23 @@ public class DetaljiPonudeFragment extends android.support.v4.app.Fragment imple
                 List<Favorit> favoriti= Favorit.getAll();
                 //ako je vec favorit,brišemo ga iz tablice Favorit
                 if(ponudaJeFavorit){
+                    Picasso.with(context).load(R.drawable.addfavorite).into(dodajUFavoriteSlika);
+
+                    Animation fadeIn = new AlphaAnimation(0, 1);
+                    fadeIn.setInterpolator(new DecelerateInterpolator()); //add this
+                    fadeIn.setDuration(1500);
+
+                    Animation fadeOut = new AlphaAnimation(1, 0);
+                    fadeOut.setInterpolator(new AccelerateInterpolator()); //and this
+                    fadeOut.setStartOffset(1500);
+                    fadeOut.setDuration(1500);
+
+                    AnimationSet animation = new AnimationSet(false); //change to false
+                    animation.addAnimation(fadeOut);
+                    animation.addAnimation(fadeIn);
+                    dodajUFavoriteSlika.setAnimation(animation);
+                    dodajUFavoriteTekst.setAnimation(animation);
+
                     Favorit.deleteFromHash(ponudaDohvacena.getHash());
                     ponudaJeFavorit = false;
 
@@ -248,24 +241,25 @@ public class DetaljiPonudeFragment extends android.support.v4.app.Fragment imple
                     String tekstPonude = ponudaDohvacena.getTekstPonude();
                     baza.ZapisiUDnevnik(1, android_id, "Izbrisana omiljena ponuda", ponudaDohvacena.getHash(), 0);
 
-                    //Animacija okretanja ikonice
-                    AnimationSet animSet = new AnimationSet(true);
-//                    animSet.setInterpolator(new DecelerateInterpolator());
-                    animSet.setFillAfter(true);
-//                    animSet.setFillEnabled(true);
-
-                    final RotateAnimation animRotate = new RotateAnimation(0.0f, 3690.0f,
-                            RotateAnimation.RELATIVE_TO_SELF, 0.5f,
-                            RotateAnimation.RELATIVE_TO_SELF, 0.5f);
-
-                    animRotate.setDuration(500);
-                    animRotate.setFillAfter(true);
-                    animSet.addAnimation(animRotate);
-
-                    dodajUFavoriteSlika.startAnimation(animSet);
-
-                    //ako nije favorit, kreiramo novi element i tako ga dodajemo u favorite
                 }else {
+                    Picasso.with(context).load(R.drawable.deletefavorite).into(dodajUFavoriteSlika);
+
+                    Animation fadeIn = new AlphaAnimation(0, 1);
+                    fadeIn.setInterpolator(new DecelerateInterpolator()); //add this
+                    fadeIn.setDuration(1500);
+
+                    Animation fadeOut = new AlphaAnimation(1, 0);
+                    fadeOut.setInterpolator(new AccelerateInterpolator()); //and this
+                    fadeOut.setStartOffset(1500);
+                    fadeOut.setDuration(1500);
+
+                    AnimationSet animation = new AnimationSet(false); //change to false
+                    animation.addAnimation(fadeOut);
+                    animation.addAnimation(fadeIn);
+                    dodajUFavoriteSlika.setAnimation(animation);
+                    dodajUFavoriteTekst.setAnimation(animation);
+
+
                     Favorit novi = new Favorit(favoriti.size(),ponudaDohvacena.getHash(), true, ponudaDohvacena.getId(), ponudaDohvacena.getTekstPonude(),
                             Integer.parseInt(ponudaDohvacena.getCijena()), ponudaDohvacena.getPopust()
                             , ponudaDohvacena.getCijenaOriginal(),ponudaDohvacena.getUrlSlike(), ponudaDohvacena.getUrlLogo(), ponudaDohvacena.getUrlWeba(),
@@ -283,23 +277,6 @@ public class DetaljiPonudeFragment extends android.support.v4.app.Fragment imple
 
                     ponudaJeFavorit = true;
                     dodajUFavoriteTekst.setText("Briši iz spremljenih ponuda");
-
-                    //Animacija okretanja ikonice
-                    AnimationSet animSet = new AnimationSet(true);
-//                    animSet.setInterpolator(new DecelerateInterpolator());
-                    animSet.setFillAfter(true);
-//                    animSet.setFillEnabled(true);
-
-                    final RotateAnimation animRotate = new RotateAnimation(0.0f, 3645.0f,
-                            RotateAnimation.RELATIVE_TO_SELF, 0.5f,
-                            RotateAnimation.RELATIVE_TO_SELF, 0.5f);
-
-
-                    animRotate.setDuration(500);
-                    animRotate.setFillAfter(true);
-                    animSet.addAnimation(animRotate);
-
-                    dodajUFavoriteSlika.startAnimation(animSet);
                 }
             }
         });

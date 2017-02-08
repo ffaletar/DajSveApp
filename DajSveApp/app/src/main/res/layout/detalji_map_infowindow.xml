@@ -8,7 +8,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/transparent">
+        android:background="@drawable/transparent"
+        android:weightSum="1">
+
         <ImageView
             android:layout_gravity="center"
             android:layout_marginRight="5dp"
@@ -17,7 +19,8 @@
             android:src="@mipmap/ic_launcher"
             android:layout_width="wrap_content"
             android:id="@+id/slika"
-            />
+            android:layout_weight="0.18" />
+
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
