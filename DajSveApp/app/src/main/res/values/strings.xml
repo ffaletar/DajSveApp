@@ -2,5 +2,9 @@
     <string name="app_name">DajSve</string>
     <string name="open_drawer">Open Drawer</string>
     <string name="close_drawer">Close Drawer</string>
+    <string name="ponude_bottom_navigation">Ponude</string>
+    <string name="spremljene_bottom_navigation">Spremljene ponude</string>
+    <string name="kategorije_bottom_navigation">Moje kategorije</string>
+    <string name="mapa_bottom_navigation">Mapa</string>
 
 </resources>

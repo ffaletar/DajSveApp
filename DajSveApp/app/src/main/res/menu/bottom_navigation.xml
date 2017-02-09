@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/action_ponude"
+        android:title="@string/ponude_bottom_navigation"
+        android:icon="@drawable/dajsvebijeli" app:showAsAction="ifRoom"/>
+    <item android:id="@+id/action_spremljene"
+        android:title="@string/spremljene_bottom_navigation"
+        android:icon="@drawable/dajsvebijeli" app:showAsAction="ifRoom"/>
+    <item android:id="@+id/action_kategorije"
+        android:title="@string/kategorije_bottom_navigation"
+        android:icon="@drawable/dajsvebijeli" app:showAsAction="ifRoom"/>
+    <item android:id="@+id/action_mapa"
+        android:title="@string/mapa_bottom_navigation"
+        android:icon="@drawable/dajsvebijeli"
+        app:showAsAction="ifRoom"/>
+</menu>

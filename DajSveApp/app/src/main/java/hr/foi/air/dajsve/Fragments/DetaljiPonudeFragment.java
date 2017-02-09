@@ -8,8 +8,13 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,6 +104,7 @@ public class DetaljiPonudeFragment extends android.support.v4.app.Fragment imple
     private TextView brojOtvaranjaNaWebuPonude;
     private LinearLayout grafDetalji;
     private ImageView ponudivacLogo;
+    private BottomNavigationView bnw;
 
     @Nullable
     @Override

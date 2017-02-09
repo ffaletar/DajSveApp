@@ -6,12 +6,15 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.os.StrictMode;
 import android.provider.Settings.Secure;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -64,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements DataLoadedListene
     Boolean adminPrijavljen = true;
     List<Ponuda> ponudaLista = null;
     private String uneseniUpit;
+    private BottomNavigationView bnw;
     private Boolean internetDostupan = false;
 
     @Override
@@ -72,10 +76,11 @@ public class MainActivity extends AppCompatActivity implements DataLoadedListene
 
 
 
+
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.action_bar_layout);
 
-            SharedPreferences.Editor spref = getSharedPreferences("LOGGED", Context.MODE_PRIVATE).edit();
+        SharedPreferences.Editor spref = getSharedPreferences("LOGGED", Context.MODE_PRIVATE).edit();
         spref.putBoolean("logged", false);
         spref.commit();
 
@@ -152,6 +157,47 @@ public class MainActivity extends AppCompatActivity implements DataLoadedListene
                 .commit();
         //!!!kraj postavljanje početnog fragmenta glavne aktivnosti
 
+
+
+
+
+        Fragment homeScreen = new PocetnaFragment();
+        FragmentManager fragmentoState = getSupportFragmentManager();
+        fragmentoState.beginTransaction()
+                .replace(R.id.linearlayout, homeScreen)
+                .commit();
+        bnw = (BottomNavigationView) drawerLayout.findViewById(R.id.bottom_navigation);
+
+        bnw.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment fragment = null;
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                switch (item.getItemId()) {
+                    case R.id.action_ponude:
+                        fragment = new PocetnaFragment();
+                        fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.linearlayout, fragment).commit();
+                        return true;
+                    case R.id.action_spremljene:
+                        fragment = new FavoritiFragment();
+                        fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.linearlayout, fragment).commit();
+                        return true;
+                    case R.id.action_kategorije:
+                        fragment = new MojeKategorijeFragment();
+                        fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.linearlayout, fragment).commit();
+                        return true;
+                    case R.id.action_mapa:
+                        fragment = new MapFragment();
+                        fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.linearlayout, fragment).commit();
+                        return true;
+                    default:
+                        fragment = new PocetnaFragment();
+                        fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.linearlayout, fragment).commit();
+                        return true;
+                }
+            }
+        });
+
         //postavljanje listenera za klik na item u meniju
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -180,19 +226,12 @@ public class MainActivity extends AppCompatActivity implements DataLoadedListene
                 fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.linearlayout, fragment).commit();
                 drawerLayout.closeDrawers();
             }
-
-
-
         });
         //!!!kraj postavljanje listenera za klik na item u meniju
 
-//        if(adminPrijavljen){
-//            button.setVisibility(View.VISIBLE);
-//        }else {
-//            button.setVisibility(View.GONE);
-//        }
 
     }
+
 
     //Nekon submit-a u tražilici, uneseni upit se sprema u string uneseniUpit i otvara se fragment PretraživanjeFragment
     @Override
